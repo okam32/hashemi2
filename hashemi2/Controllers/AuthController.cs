@@ -125,6 +125,31 @@ namespace hashemi2.Controllers
             string token = new JwtSecurityTokenHandler().WriteToken(tokenObject);
             return token;
         }
+        //route -> make user -> owner
+        [HttpPost]
+        [Route("make-admin")]
+        public async Task<IActionResult> MakeAdmin([FromBody] YpdatePermisionDto updatePermisionDto)
+        {
+            var user = await _userManager.FindByNameAsync(updatePermisionDto.UserName);
+            if (user is null)
+                return BadRequest("invalid username!!!!!!!");
+            await _userManager.AddToRoleAsync(user, StaticUserRole.ADMIN);
+
+            return Ok("user is now an admin");
+        }
+
+        // make => make user  -> owner
+        [HttpPost]
+        [Route("make-owner")]
+        public async Task<IActionResult> MakeOwner([FromBody] YpdatePermisionDto updatePermisionDto)
+        {
+            var user = await _userManager.FindByNameAsync(updatePermisionDto.UserName);
+            if (user is null)
+                return BadRequest("invalid username!!!!!!!");
+            await _userManager.AddToRoleAsync(user, StaticUserRole.OWNER);
+
+            return Ok("user is now an owner");
+        }
     }
 }
 
