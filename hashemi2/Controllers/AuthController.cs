@@ -1,4 +1,5 @@
 ﻿using hashemi2.Core.Dtos;
+using hashemi2.Core.Entities;
 using hashemi2.Core.OtherObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -14,11 +15,11 @@ namespace hashemi2.Controllers
     [ApiController]
     public class AuthController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
 
-        public AuthController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public AuthController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
         {
             _userManager = userManager;
             _roleManager = roleManager;
@@ -56,8 +57,10 @@ namespace hashemi2.Controllers
                 return BadRequest("username alrdy exists");
             }
 
-            IdentityUser newUser = new IdentityUser()
+            ApplicationUser newUser = new ApplicationUser()
             {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
                 Email = registerDto.Email,
                 UserName = registerDto.UserName,
                 SecurityStamp = Guid.NewGuid().ToString(),
