@@ -9,8 +9,11 @@ namespace hashemi2.Core.AutoMapConfig
         public AutoMapperConfigProfile()
         {
             CreateMap<StockDto, Stock>();
+            CreateMap<Stock, StockDto>();
             CreateMap<GoodDto, Good>().ReverseMap();
             CreateMap<Good,GoodDto>().ReverseMap();
+            CreateMap<ShiftDto, Shift>();
+            CreateMap<UserShiftDto, UserShift>();
         }
 
     }

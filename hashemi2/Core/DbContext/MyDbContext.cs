@@ -11,6 +11,9 @@ namespace hashemi2.Core.DbContext
 
         public DbSet<Good> Goods { get; set; }
         public DbSet<Stock> Stocks { get; set; }
+        public DbSet<Shift> Shifts { get; set; }
+        public DbSet<UserShift> UserShifts { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

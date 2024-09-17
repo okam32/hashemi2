@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hashemi2.Core.DbContext;
 
@@ -10,9 +11,11 @@ using hashemi2.Core.DbContext;
 namespace hashemi2.Migrations.MyDb
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911130542_shiftmy")]
+    partial class shiftmy
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -120,9 +123,8 @@ namespace hashemi2.Migrations.MyDb
                     b.Property<int>("ShiftId")
                         .HasColumnType("int");
 
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("UserName")
+                        .HasColumnType("int");
 
                     b.HasKey("UserShiftId");
 

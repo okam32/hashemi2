@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using hashemi2.Core.DbContext;
 
@@ -10,9 +11,11 @@ using hashemi2.Core.DbContext;
 namespace hashemi2.Migrations.MyDb
 {
     [DbContext(typeof(MyDbContext))]
-    partial class MyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240911130324_shift")]
+    partial class shift
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -59,31 +62,6 @@ namespace hashemi2.Migrations.MyDb
                     b.ToTable("Goods");
                 });
 
-            modelBuilder.Entity("hashemi2.Core.Entities.Shift", b =>
-                {
-                    b.Property<int>("ShiftId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ShiftId"));
-
-                    b.Property<string>("EndTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShiftName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("StartTime")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ShiftId");
-
-                    b.ToTable("Shifts");
-                });
-
             modelBuilder.Entity("hashemi2.Core.Entities.Stock", b =>
                 {
                     b.Property<int>("Id")
@@ -105,32 +83,6 @@ namespace hashemi2.Migrations.MyDb
                     b.ToTable("Stocks");
                 });
 
-            modelBuilder.Entity("hashemi2.Core.Entities.UserShift", b =>
-                {
-                    b.Property<int>("UserShiftId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserShiftId"));
-
-                    b.Property<string>("ShiftDate")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("ShiftId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserShiftId");
-
-                    b.HasIndex("ShiftId");
-
-                    b.ToTable("UserShifts");
-                });
-
             modelBuilder.Entity("hashemi2.Core.Entities.Good", b =>
                 {
                     b.HasOne("hashemi2.Core.Entities.Stock", "GoodStock")
@@ -140,17 +92,6 @@ namespace hashemi2.Migrations.MyDb
                         .IsRequired();
 
                     b.Navigation("GoodStock");
-                });
-
-            modelBuilder.Entity("hashemi2.Core.Entities.UserShift", b =>
-                {
-                    b.HasOne("hashemi2.Core.Entities.Shift", "USerShift")
-                        .WithMany()
-                        .HasForeignKey("ShiftId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("USerShift");
                 });
 
             modelBuilder.Entity("hashemi2.Core.Entities.Stock", b =>
