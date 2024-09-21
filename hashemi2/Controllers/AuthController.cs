@@ -4,6 +4,7 @@ using hashemi2.Core.OtherObjects;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
@@ -45,6 +46,14 @@ namespace hashemi2.Controllers
             await _roleManager.CreateAsync(new IdentityRole(StaticUserRole.OWNER));
 
             return Ok("Seed role done sucessfuly");
+        }
+        [HttpGet]
+        [Route("getusers")]
+        public async Task<ActionResult> GetUser()
+        {
+            var users = await _userManager.Users.ToListAsync();
+
+            return Ok(users);
         }
         [HttpPost]
         [Route("register")]

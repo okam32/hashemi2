@@ -4,6 +4,7 @@ using hashemi2.Core.Dtos;
 using hashemi2.Core.Entities;
 using hashemi2.Migrations.MyDb;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,13 +14,20 @@ namespace hashemi2.Controllers
     [ApiController]
     public class ShiftController : ControllerBase
     {
+        private readonly UserManager<ApplicationUser> _userManager;
+        private readonly RoleManager<IdentityRole> _roleManager;
+        private readonly IConfiguration _configuration;
+
         private readonly MyDbContext _context;
         private readonly IMapper _mapper;
 
-        public ShiftController(MyDbContext context, IMapper mapper)
+        public ShiftController(MyDbContext context, IMapper mapper, IConfiguration configuration, RoleManager<IdentityRole> roleManager, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _mapper = mapper;
+            _configuration = configuration;
+            _roleManager = roleManager;
+            _userManager = userManager;
         }
 
         //shifts
@@ -52,6 +60,8 @@ namespace hashemi2.Controllers
         {
             var userShifts = await _context.UserShifts.Include(us => us.USerShift).ToListAsync();
 
+
+           
             return Ok(userShifts);
         }
 
@@ -63,7 +73,7 @@ namespace hashemi2.Controllers
             
             if (usershift == null)
             {
-                return NotFound("good not found");
+                return NotFound("User not found");
             }
             return Ok(usershift);
         }
@@ -78,6 +88,21 @@ namespace hashemi2.Controllers
             await _context.SaveChangesAsync();
 
             return Ok("userShift add successfully");
+        }
+        [HttpPut]
+        [Route("editUsershift/{id}")]
+        public async Task<ActionResult<UserShiftDto>> EditeUserShift([FromBody] UserShiftDto userShiftDto, [FromRoute] int id)
+        {
+            var usershift = await _context.UserShifts.FirstOrDefaultAsync(s=> s.UserShiftId == id);
+            if (usershift == null)
+            {
+                return NotFound();
+            }
+
+            _mapper.Map(userShiftDto, usershift);
+            await _context.SaveChangesAsync();
+
+            return Ok("usershift update successfully");
         }
 
 
