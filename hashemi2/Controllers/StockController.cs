@@ -25,7 +25,7 @@ namespace hashemi2.Controllers
         [Route("get-stocks")]
         public async Task<ActionResult<IEnumerable<Stock>>> GetAllStocks()
         {
-            var stock = await _context.Stocks.ToListAsync();
+            var stock = await _context.Stocks.Include(g => g.Goods).ToListAsync();
 
             return Ok(stock);
         }
@@ -45,7 +45,7 @@ namespace hashemi2.Controllers
         [Route("getstockbyid/{id}")]
         public async Task<ActionResult<StockDto>> GetStockById([FromRoute] int id)
         {
-            var stock = await _context.Stocks.FirstOrDefaultAsync(s =>s.Id == id);
+            var stock = await _context.Stocks.Include(g => g.Goods).FirstOrDefaultAsync(s =>s.Id == id);
             if (stock == null)
             {
                 return NotFound("stock not found");

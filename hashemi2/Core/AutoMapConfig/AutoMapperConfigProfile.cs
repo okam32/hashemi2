@@ -15,6 +15,8 @@ namespace hashemi2.Core.AutoMapConfig
             CreateMap<ShiftDto, Shift>();
             CreateMap<UserShiftDto, UserShift>();
             CreateMap<UserShift, UserShiftDto>().ReverseMap();
+            CreateMap<EventDto, Event>();
+            CreateMap<RequestDto, Request>();
         }
 
     }

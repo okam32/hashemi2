@@ -12,10 +12,12 @@ namespace hashemi2.Core.Entities
         public string SerialNO { get; set; }
         public string CurrentLocation { get; set; }
         public string Description { get; set; }
-
+        public bool IsInStock { get; set; }
 
         public int StockId { get; set; }
         [ForeignKey("StockId")]
         public Stock GoodStock { get; set; }
+
+        public Request Request { get; set; }
     }
 }
